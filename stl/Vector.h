@@ -417,14 +417,117 @@ typename Vector<T>::Iterator Vector<T>::find(const T & value)
 template <typename T>
 typename Vector<T>::Iterator Vector<T>::insert(Vector<T>::Iterator it, const T & value)//调用下面的insert
 {
-
+    return insert(it, 1, value);
 }
+
 
 template <typename T>
 typename Vector<T>::Iterator Vector<T>::insert(Vector<T>::Iterator it, int n, const T & value)
 {
+    int size = it - begin();//插入的地方到开始的距离，用于后面的赋值操作时，确定边界
+    if (m_size + n <= m_capacity)
+    {
+        
+        for (int i = m_size; i > size; i--)//移动原来元素到后面
+        {
+            m_data[i + n - 1] = m_data[i - 1];
+        }
     
+        for (int i = 0; i < n; i++)//插入元素
+        {
+            m_data[size + i] = value;
+        }
+        m_size += n;
+        return Vector<T>::Iterator(m_data + size);
+    }
+    while (m_size + n > m_capacity)
+    {
+        if (m_capacity == 0)
+        {
+            m_capacity = 1;
+        }
+        else
+        {
+            m_capacity *= 2;
+        }
+    }
+    T * data = new T[m_capacity];
+    
+    for (int i = 0; i < size; i++)
+    {
+        data[i] = m_data[i];
+    }
+    for (int i = 0; i < n; i++)
+    {
+        data[size + i] = value;
+    }
+    for (int i = size; i < m_size; i++)
+    {
+        data[i + n] = m_data[i];
+    }
+    if (m_data != nullptr)
+    {
+        delete [] m_data;
+        m_data = nullptr;
+    }
+    m_data = data;
+    m_size += n;
+    return Vector<T>::Iterator(m_data + size);
 }
+
+// template <typename T>
+// typename Vector<T>::Iterator Vector<T>::insert(Vector<T>::Iterator it, int n, const T & value)
+// {
+//     int size = it - begin();//size表示it指向的迭代器到开头的数量；
+//     if (m_size + n < m_capacity)
+//     {
+//         for (int i = m_size; i > size; i--)//移动it指向的地方到m_size-1的元素到后面；
+//         {
+//             m_data[i - 1 + n] = m_data[i-1];
+//         }
+//         for (int i =0; i < n; i++ )
+//         {
+//             m_data[m_size + i] = value;
+//         }
+//         m_size += n;
+//         return Vector<T>::Iterator(m_data + size);
+//     }
+//     while (m_size + n > m_capacity)
+//     {
+//         if (m_capacity == 0)
+//         {
+//             m_capacity = 1;
+//         }
+//         else
+//         {
+//             m_capacity *= 2;
+//         }
+//     }
+//     T * data = new T[m_capacity];
+//     for (int i = 0; i < size; i++)
+//     {
+//         data[i] = m_data[i];
+//     }
+
+//     for (int i =0; i < n; i++)
+//     {
+//         data[size + i] = value;
+//     }
+
+//     for (int i = size; i < m_size; i++)
+//     {
+//         data[i + n] = m_data[i];
+//     }
+
+//     if (m_data != nullptr)
+//     {
+//         delete [] m_data;
+//         m_data = nullptr;
+//     }
+//     m_data = data;
+//     m_size += n;
+//     return Vector<T>::Iterator(m_data + size);
+// }
 
 template <typename T>
 typename Vector<T>::Iterator Vector<T>::erase(Vector<T>::Iterator it)

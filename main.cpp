@@ -44,15 +44,18 @@ int main()
     // v.show();
     // v1.show();
 
-    Vector<int> v2;
-    v2 = v;
-    v2.show();
+    // Vector<int> v2;
+    // v2 = v;
+    // v2.show();
 
-    std::cout << "test for Iterator" << std::endl;
-    for(Vector<int>::Iterator it = v2.begin(); it != v2.end(); it ++)
-    {
-        std::cout << *it << ",";
-    }
-    std::cout << std::endl;
+    // std::cout << "test for Iterator" << std::endl;
+    // for(Vector<int>::Iterator it = v2.begin(); it != v2.end(); it ++)
+    // {
+    //     std::cout << *it << ",";
+    // }
+    // std::cout << std::endl;
+
+   v.insert(v.begin()+1,7);
+   v.show();
     return 0;
 }

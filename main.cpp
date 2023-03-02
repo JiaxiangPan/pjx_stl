@@ -55,7 +55,15 @@ int main()
     // }
     // std::cout << std::endl;
 
-   v.insert(v.begin()+1,7);
-   v.show();
+    v.insert(v.begin()+1, 7);
+    v.show();
+
+    v.erase(v.begin());
+    v.show();
+    v.erase(v.find(3));
+    v.show();
+    //v.erase(v.find(7),v.find(7));
+    v.erase(v.find(2), v.find(5));
+    v.show();
     return 0;
 }

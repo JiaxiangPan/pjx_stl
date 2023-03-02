@@ -197,13 +197,13 @@ int Vector<T>::capacity() const
 template <typename T>
 void Vector<T>::reserve(int size)
 {
-    if(m_capacity >= size)
+    if (m_capacity >= size)
     {
         return;
     }
-    while(m_capacity < size)
+    while (m_capacity < size)
     {
-        if(m_capacity == 0)
+        if (m_capacity == 0)
         {
         m_capacity = 1;
         }
@@ -213,11 +213,11 @@ void Vector<T>::reserve(int size)
         }
     }
     T * data = new T[m_capacity];
-    for(int i = 0; i < m_size; i++)
+    for (int i = 0; i < m_size; i++)
     {
         data[i] = m_data[i];
     }
-    if(m_data != nullptr)//释放m_data的内存
+    if (m_data != nullptr)//释放m_data的内存
     {
         delete [] m_data;
         m_data = nullptr;
@@ -228,23 +228,23 @@ void Vector<T>::reserve(int size)
 template <typename T>
 void Vector<T>::resize(int size)
 {
-    if(size <= m_size)
+    if (size <= m_size)
     {
         m_size = size;
         return;
     }
-    if(m_size <= m_capacity)
+    if (m_size <= m_capacity)
     {
-        for(int i = m_size; i < size; i++)
+        for (int i = m_size; i < size; i++)
         {
             m_data[i] = T();
         }
         m_size = size;
         return;
     }
-    while(size > m_capacity)
+    while (size > m_capacity)
     {
-        if(m_capacity == 0)
+        if (m_capacity == 0)
         {
             m_capacity = 1;
         }
@@ -254,16 +254,16 @@ void Vector<T>::resize(int size)
         }
     }
     T * data = new T[m_capacity];
-    for(int i =0; i < m_size; i++)
+    for (int i =0; i < m_size; i++)
     {
         data[i] = m_data[i];
     }
-    for(int i = m_size; i < size; i++)
+    for (int i = m_size; i < size; i++)
     {
         data[i] = T();
     }
 
-    if(m_data != nullptr)
+    if (m_data != nullptr)
     {
         delete [] m_data;
         m_data = nullptr;
@@ -275,7 +275,7 @@ void Vector<T>::resize(int size)
 template <typename T>
 T & Vector<T>::at(int index)
 {
-    if(index < 0 || index >= m_size)
+    if (index < 0 || index >= m_size)
     {
         throw std::logic_error("out of range");
     }
@@ -291,7 +291,7 @@ T & Vector<T>::operator [] (int index)
 template <typename T>
 T & Vector<T>::front()
 {
-    if(m_size <= 0)
+    if (m_size <= 0)
     {
         throw std::logic_error("vector is empty");
     }
@@ -301,7 +301,7 @@ T & Vector<T>::front()
 template <typename T>
 T & Vector<T>::back()
 {
-    if(m_size <= 0)
+    if (m_size <= 0)
     {
         throw std::logic_error("vector is empty");
     }
@@ -329,16 +329,16 @@ T * Vector<T>::data()
 template <typename T>
 Vector<T> & Vector<T>::operator = (const Vector<T> & other)
 {
-    if(m_capacity < other.m_size)//当前vector容量不足时，需要扩容；
+    if (m_capacity < other.m_size)//当前vector容量不足时，需要扩容；
     {
-        if(m_data != nullptr)//释放原内存空间
+        if (m_data != nullptr)//释放原内存空间
         {
             delete [] m_data;
             m_data = nullptr;
             m_size = 0;
             m_capacity = 0;
         }
-        while(m_capacity < other.m_size)//扩容
+        while (m_capacity < other.m_size)//扩容
         {
             if(m_capacity == 0)
             {
@@ -351,7 +351,7 @@ Vector<T> & Vector<T>::operator = (const Vector<T> & other)
         }
         m_data = new T[m_capacity];
     }
-    for(int i = 0; i < other.m_size; i++)//赋值容器中的值.第一次写的时候，写成了i < m_size，由于m_size已经设置为0，所以会产生错误；
+    for (int i = 0; i < other.m_size; i++)//赋值容器中的值.第一次写的时候，写成了i < m_size，由于m_size已经设置为0，所以会产生错误；
     {
         m_data[i] = other.m_data[i];
     }
@@ -404,9 +404,9 @@ typename Vector<T>::Iterator Vector<T>::end()
 template <typename T>
 typename Vector<T>::Iterator Vector<T>::find(const T & value)
 {
-    for(Vector<T>::Iterator it = begin(); it != end(); it++)
+    for (Vector<T>::Iterator it = begin(); it != end(); it++)
     {
-        if(*it == value)
+        if (*it == value)
         {
             return it;
         }
@@ -475,73 +475,41 @@ typename Vector<T>::Iterator Vector<T>::insert(Vector<T>::Iterator it, int n, co
     return Vector<T>::Iterator(m_data + size);
 }
 
-// template <typename T>
-// typename Vector<T>::Iterator Vector<T>::insert(Vector<T>::Iterator it, int n, const T & value)
-// {
-//     int size = it - begin();//size表示it指向的迭代器到开头的数量；
-//     if (m_size + n < m_capacity)
-//     {
-//         for (int i = m_size; i > size; i--)//移动it指向的地方到m_size-1的元素到后面；
-//         {
-//             m_data[i - 1 + n] = m_data[i-1];
-//         }
-//         for (int i =0; i < n; i++ )
-//         {
-//             m_data[m_size + i] = value;
-//         }
-//         m_size += n;
-//         return Vector<T>::Iterator(m_data + size);
-//     }
-//     while (m_size + n > m_capacity)
-//     {
-//         if (m_capacity == 0)
-//         {
-//             m_capacity = 1;
-//         }
-//         else
-//         {
-//             m_capacity *= 2;
-//         }
-//     }
-//     T * data = new T[m_capacity];
-//     for (int i = 0; i < size; i++)
-//     {
-//         data[i] = m_data[i];
-//     }
-
-//     for (int i =0; i < n; i++)
-//     {
-//         data[size + i] = value;
-//     }
-
-//     for (int i = size; i < m_size; i++)
-//     {
-//         data[i + n] = m_data[i];
-//     }
-
-//     if (m_data != nullptr)
-//     {
-//         delete [] m_data;
-//         m_data = nullptr;
-//     }
-//     m_data = data;
-//     m_size += n;
-//     return Vector<T>::Iterator(m_data + size);
-// }
-
 template <typename T>
 typename Vector<T>::Iterator Vector<T>::erase(Vector<T>::Iterator it)
 {
-
+    if (end() - it == 1)
+    {
+        m_size -= 1;
+        return end();
+    }
+    int size = it - begin();
+    for (int i = size; i < m_size - 1; i++)
+    {
+        m_data[i] = m_data[i + 1];
+    }
+    m_size -= 1;
+    return it;
 }
 
 template <typename T>
 typename Vector<T>::Iterator Vector<T>::erase(Vector<T>::Iterator first, Vector<T>::Iterator last)
 {
+    if (first == last)
+    {
+        erase(first);
+    }
 
+    int f = first - begin();
+    int l = last - begin();
+    int n = last - first;
+    for (int i = 0; i < m_size - l; i++)//移动l到m_size的元素到前方
+    {
+        m_data[f + i] = m_data[l + i];
+    }
+    m_size -= n;
+    return first;
 }
-
-
 
 }
 }

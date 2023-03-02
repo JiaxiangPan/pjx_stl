@@ -63,7 +63,7 @@ int main()
     v.erase(v.find(3));
     v.show();
     //v.erase(v.find(7),v.find(7));
-    v.erase(v.find(2), v.find(5));
+    v.erase(v.begin(), v.end() - 1);
     v.show();
     return 0;
 }

@@ -13,7 +13,12 @@ int main()
     v.push_back(3);
     v.push_back(4);
     v.push_back(5);
-    v.show();
+    // v.show();
+     // for (auto i : v)
+    // {
+    //     std::cout  << i << " ";
+    // }
+    // std::cout << std::endl;
 
     // v.reserve(7);
     // v.show();
@@ -55,15 +60,31 @@ int main()
     // }
     // std::cout << std::endl;
 
-    v.insert(v.begin()+1, 7);
-    v.show();
+    // v.insert(v.begin()+1, 7);
+    // v.show();
 
-    v.erase(v.begin());
-    v.show();
-    v.erase(v.find(3));
-    v.show();
-    //v.erase(v.find(7),v.find(7));
-    v.erase(v.begin(), v.end() - 1);
-    v.show();
+    // v.erase(v.begin());
+    // v.show();
+    // v.erase(v.find(3));
+    // v.show();
+    // //v.erase(v.find(7),v.find(7));
+    // v.erase(v.begin(), v.end() - 1);
+    // v.show();
+
+    //test for ReverseIterator
+    for (Vector<int>::ReverseIterator it = v.rbegin(); it != v.rend(); it++)
+    {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+    
+    if (v.rfind(3) != v.rend())
+    {
+        std::cout << "find!" << std::endl;
+    }
+    else
+    {
+        std::cout << "not find!" << std::endl;
+    }
     return 0;
 }

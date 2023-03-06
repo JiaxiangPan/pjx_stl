@@ -52,7 +52,7 @@ public:
             return * this;
         }
 
-        Iterator & operator ++ ()
+        Iterator &  operator ++ ()
         {
             m_pointer += 1;
             return *this;
@@ -117,7 +117,86 @@ public:
     Iterator insert(Iterator it, int n, const T & value);
     Iterator erase(Iterator it);
     Iterator erase(Iterator first, Iterator last);
-    
+
+    class ReverseIterator
+    {
+        public:
+        ReverseIterator() : m_pointer(nullptr) {}
+        ReverseIterator(T * pointer) : m_pointer(pointer) {}
+        ~ReverseIterator() {}
+
+        bool operator == (const ReverseIterator & other)
+        {
+            return this->m_pointer == other.m_pointer;
+        }
+
+        bool operator != (const ReverseIterator & other)
+        {
+            return this->m_pointer != other.m_pointer;
+        }
+
+        ReverseIterator & operator = (const ReverseIterator & other)
+        {
+            this->m_pointer = other.m_pointer;
+            return *this;
+        }
+
+        ReverseIterator & operator ++ ()
+        {
+            m_pointer -= 1;
+            return *this;
+        }
+
+        ReverseIterator  operator ++ (int)
+        {
+            ReverseIterator it = *this;
+            ++(*this);
+            return it;
+        }
+
+        ReverseIterator operator + (int i)
+        {
+            ReverseIterator it = *this;
+            it.m_pointer -= i;
+            return it;
+        }
+
+          ReverseIterator & operator += (int i)
+        {
+            m_pointer -= i;
+            return *this;
+        }
+
+        ReverseIterator operator - (int i)
+        {
+            ReverseIterator it = *this;
+            it.m_pointer += i;
+            return it;
+        }
+
+        ReverseIterator & operator -= (int i)
+        {
+            m_pointer += i;
+            return *this;
+        }
+
+        T & operator * ()
+        {
+            return *m_pointer;
+        }
+
+        T * operator -> ()
+        {
+            return m_pointer;
+        }
+        private:
+        T * m_pointer;
+    };
+
+    ReverseIterator rbegin();
+    ReverseIterator rend();
+    ReverseIterator rfind(const T & value);
+
 private:
     T * m_data;
     int m_size;
@@ -395,9 +474,23 @@ typename Vector<T>::Iterator Vector<T>::begin()//不加typename会报错，加上typenam
 }
 
 template <typename T>
+typename Vector<T>::ReverseIterator Vector<T>::rbegin()
+{
+    Vector<T>::ReverseIterator it(m_data +  m_size - 1);
+    return it;
+}
+
+template <typename T>
 typename Vector<T>::Iterator Vector<T>::end()
 {
     Vector<T>::Iterator it(m_data + m_size);
+    return it;
+}
+
+template <typename T>
+typename Vector<T>::ReverseIterator Vector<T>::rend()
+{
+    Vector<T>::ReverseIterator it(m_data - 1);
     return it;
 }
 
@@ -412,6 +505,19 @@ typename Vector<T>::Iterator Vector<T>::find(const T & value)
         }
     }
     return end();
+}
+
+template <typename T>
+typename Vector<T>::ReverseIterator Vector<T>::rfind(const T &  value)
+{
+    for (Vector<T>::ReverseIterator it = rbegin(); it != rend(); it ++ )
+    {
+        if (*it == value)
+        {
+            return it;
+        }
+    }
+    return rend();
 }
 
 template <typename T>

@@ -72,6 +72,7 @@ int main()
     // v.show();
 
     //test for ReverseIterator
+    std::cout << "反向迭代器的测试" << std::endl;
     for (Vector<int>::ReverseIterator it = v.rbegin(); it != v.rend(); it++)
     {
         std::cout << *it << " ";

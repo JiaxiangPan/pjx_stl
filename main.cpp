@@ -72,7 +72,7 @@ int main()
     // v.show();
 
     //test for ReverseIterator
-    std::cout << "·´Ïòµü´úÆ÷µÄ²âÊÔ" << std::endl;
+    std::cout << "åå‘è¿­ä»£å™¨çš„æµ‹è¯•ï¼š " << std::endl;
     for (Vector<int>::ReverseIterator it = v.rbegin(); it != v.rend(); it++)
     {
         std::cout << *it << " ";
